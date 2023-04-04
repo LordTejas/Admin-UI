@@ -1,0 +1,17 @@
+.user-list-container {
+    box-sizing: border-box;
+    padding: 1rem;
+    width: 100%;
+}
+
+.user-list-search-bar-container {
+    margin: 1rem; 
+}
+
+.user-list-table-view-container {
+    margin: 1rem; 
+}
+
+.user-list-table-actions-container {
+    margin: 1rem; 
+}
