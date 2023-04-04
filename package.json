@@ -1,0 +1,11 @@
+{
+  "name": "admin-ui",
+  "version": "1.0.0",
+  "description": "Admin UI GeekTrust App",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Tejas Kanji",
+  "license": "ISC"
+}
