@@ -15,3 +15,17 @@
 .user-list-table-actions-container {
     margin: 1rem; 
 }
+
+#table-action-area {
+    position: relative;
+}
+
+#delete-selected-button {
+    position: absolute;
+    left: 1rem;
+}
+
+#row-limit-select {
+    position: absolute;
+    right: 1rem;
+}
