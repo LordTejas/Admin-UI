@@ -25,8 +25,10 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import FormControl from '@mui/material/FormControl';
 import { visuallyHidden } from '@mui/utils';
 import { Button, Divider, MenuItem } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 
 import './UserList.css';
@@ -41,7 +43,7 @@ export default function UserList() {
     const [search, setSearch] = useState("");
     const [found, setFound] = useState([]);
     const [selectedEdit, setSelectedEdit] = useState(new Set());
-    const [editData, setEditData] = useState(new Map());
+    const [editData, setEditData] = useState({});
 
     // Using Set here, not an array
     // It will increase some functionality, Due to O(1) Access time when we have much more load
@@ -93,10 +95,7 @@ export default function UserList() {
         const userIndex = users.findIndex((user) => user.id = id);
         const user = users[userIndex];
 
-        const newEditData = new Map(editData);
-        newEditData.set(id, user);
-
-        setEditData(newEditData);
+        setEditData({...editData, [id]: {...user}});
     }
 
     const applyEditChange = (id) => {
@@ -110,9 +109,9 @@ export default function UserList() {
         try {
             const newUsers = [...users];
     
-            newUsers[dataIndex]['name'] = editData.get(id).name;
-            newUsers[dataIndex]['email'] = editData.get(id).email;
-            newUsers[dataIndex]['role'] = editData.get(id).role;
+            newUsers[dataIndex]['name'] = editData[id].name;
+            newUsers[dataIndex]['email'] = editData[id].email;
+            newUsers[dataIndex]['role'] = editData[id].role;
         
     
             setUsers(newUsers);
@@ -120,15 +119,11 @@ export default function UserList() {
             console.log(e);
         } finally {
             const newSelectedEdit = new Set(selectedEdit);
-            const newEditData = new Map(editData);
 
             newSelectedEdit.delete(id);
-            newEditData.delete(id);
 
             setSelectedEdit(newSelectedEdit);
-            setEditData(newEditData);
 
-            console.log(selectedEdit, editData);
         }
         
     }
@@ -140,11 +135,12 @@ export default function UserList() {
             return;
         }
 
+        // Open Edit functionality
+        setSelectedEdit(new Set([...selectedEdit, id]));
+
         // Load data before selecting edit row
         loadEditData(id); 
 
-        // Open Edit functionality
-        setSelectedEdit(new Set([...selectedEdit, id]));
     }
 
     const handleCheckboxClick = (e, id) => {
@@ -174,26 +170,20 @@ export default function UserList() {
         setSelected(new Set());
     };
 
-    const EditableTableCell = ({user, field, isEditable}) => (
+    const handleEditChange = (e, id, key) => {
+        setEditData({...editData, [id]: { ...editData[id], [key]: e.target.value}});
+    }
+
+    const EditableTableCell = (user, field, isEditable) => (
       <TableCell
       align='center'
       >
         {
-            isEditable
+            selectedEdit.has(user.id)
             ?
             <Input
-            value={editData.get(user.id)[field]}
-            onChange={(e) => {
-
-                const newEditData = new Map(editData);
-
-                const tempUserData = editData.get(user.id);
-                tempUserData[field] = e.target.value;
-
-                newEditData.set(user.id, tempUserData);
-
-                setEditData(newEditData);
-            }}
+            value={editData[user.id][field]}
+            onChange={(e) => handleEditChange(e, user.id, field)}
             />
             :
             user[field]
@@ -201,11 +191,10 @@ export default function UserList() {
       </TableCell>  
     );
     
-    const getUserTableRow = (user) => {
+    const getUserTableRow = (user, index) => {
         
         const isItemSelected =  isSelected(user.id);
-        const isItemEditable = selectedEdit.has(user.id);
-        const labelId = `user-list-table-label-${user.id}`;
+        const labelId = `user-list-table-label-${index}`;
         
         return (
         <TableRow
@@ -227,9 +216,9 @@ export default function UserList() {
                 />
             </TableCell>
 
-            {EditableTableCell({user: user, field: "name", isEditable: isItemEditable})}
-            {EditableTableCell({user: user, field: "email", isEditable: isItemEditable})}
-            {EditableTableCell({user: user, field: "role", isEditable: isItemEditable})}
+            {EditableTableCell(user, "name")}
+            {EditableTableCell(user, "email")}
+            {EditableTableCell(user, "role")}
 
             <TableCell align="center">
                 <Stack direction="row" justifyContent="center" spacing={2}>
@@ -274,7 +263,7 @@ export default function UserList() {
 
         return (
         <TableContainer component={Paper}>
-            <Table>
+            <Table size="small">
 
                 <TableHead>
                     <TableRow>
@@ -298,7 +287,7 @@ export default function UserList() {
                 </TableHead>
                 
                 <TableBody>
-                    {subData.map(getUserTableRow)}
+                    {subData.map((d, index) => getUserTableRow(d, index))}
                 </TableBody>
 
             </Table>
@@ -365,15 +354,19 @@ export default function UserList() {
             }}
             />
 
-            {/* <Box id="row-limit-select">
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small" id="row-limit-select">
+                <InputLabel id="row-limit-select-label">Row Limit</InputLabel>
                 <Select
+                labelId="row-limit-select-label"
+                id="row-limit-select-label"
+                label="Row Limit"
                 value={rowLimit}
                 onChange={(e) => setRowLimit(e.target.value)} 
                 >
-                    {rowLimitOptions.map((option) => <MenuItem key={option}>{option}</MenuItem>)}
+                    {rowLimitOptions.map((option) => <MenuItem value={option} key={option}>{option}</MenuItem>)}
                 </Select>
-            </Box>
-             */}
+            </FormControl>
+            
 
         </Stack>
     );
