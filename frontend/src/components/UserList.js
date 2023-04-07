@@ -155,14 +155,24 @@ export default function UserList() {
     }
 
     const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            // Fetch All user IDs and add it to our set
-            let newSelected = new Set(users.map((user) => user.id));
-            setSelected(newSelected);
-            return;
+
+        const low = (currentPage - 1) * rowLimit;
+        const high = currentPage * rowLimit;
+
+        let tempUsers = [...(search.length === 0) ? users : found];
+        tempUsers = tempUsers.slice(low, high);
+
+        console.log((event.target.checked));
+        let newSelected = new Set(selected);
+        for (let i = 0; i < tempUsers.length; i++) {
+            if (event.target.checked) {
+                newSelected.add(tempUsers[i].id);
+            } else {
+                newSelected.delete(tempUsers[i].id);
+            }
         }
 
-        setSelected(new Set());
+        setSelected(newSelected);
     };
 
     const handleEditChange = (e, id, key) => {
@@ -197,6 +207,12 @@ export default function UserList() {
         role="checkbox"
         aria-checked={isItemSelected}
         selected={isItemSelected}
+        sx={{
+            "&.Mui-selected, &.Mui-selected:hover": {
+                backgroundColor: "secondary.main",
+              }
+            }
+        }
         >
             <TableCell 
             align="center"
@@ -256,6 +272,8 @@ export default function UserList() {
 
         let subData = data.slice(low, high);
 
+        let allCurrentSelected = subData.every((user) => selected.has(user.id));
+
         return (
         <TableContainer component={Paper}>
             <Table size="small">
@@ -265,8 +283,8 @@ export default function UserList() {
                         <TableCell align="center">
                             <Checkbox
                             color="primary"
-                            indeterminate={selected.size > 0 && selected.size < users.length}
-                            checked={selected.size > 0 && selected.size === users.length}
+                            indeterminate={selected.size > 0 && allCurrentSelected}
+                            checked={selected.size > 0 && allCurrentSelected}
                             onClick={handleSelectAllClick}
                             inputProps={{
                               'aria-labelledby': "header",
@@ -274,10 +292,10 @@ export default function UserList() {
                             />
                         </TableCell>
 
-                        <TableCell align="center">Name</TableCell>
-                        <TableCell align="center">Email</TableCell>
-                        <TableCell align="center">Role</TableCell>
-                        <TableCell align="center">Actions</TableCell>
+                        <TableCell align="center"><strong>Name</strong></TableCell>
+                        <TableCell align="center"><strong>Email</strong></TableCell>
+                        <TableCell align="center"><strong>Role</strong></TableCell>
+                        <TableCell align="center"><strong>Actions</strong></TableCell>
                     </TableRow>
                 </TableHead>
                 
