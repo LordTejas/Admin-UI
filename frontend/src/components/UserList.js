@@ -9,24 +9,16 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
 import Pagination from '@mui/material/Pagination';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Input from '@mui/material/Input';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import FormControl from '@mui/material/FormControl';
-import { visuallyHidden } from '@mui/utils';
 import { Button, Divider, MenuItem } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
@@ -72,6 +64,7 @@ export default function UserList() {
         searchItems();
     }, [search])
 
+
     const isSelected = (id) => {
         return selected.has(id);
     }
@@ -92,7 +85,7 @@ export default function UserList() {
     }
 
     const loadEditData = (id) => {
-        const userIndex = users.findIndex((user) => user.id = id);
+        const userIndex = users.findIndex((user) => user.id === id);
         const user = users[userIndex];
 
         setEditData({...editData, [id]: {...user}});
@@ -136,7 +129,9 @@ export default function UserList() {
         }
 
         // Open Edit functionality
-        setSelectedEdit(new Set([...selectedEdit, id]));
+        const newSelectedEdit = new Set(selectedEdit);
+        newSelectedEdit.add(id);
+        setSelectedEdit(newSelectedEdit);
 
         // Load data before selecting edit row
         loadEditData(id); 
@@ -174,7 +169,7 @@ export default function UserList() {
         setEditData({...editData, [id]: { ...editData[id], [key]: e.target.value}});
     }
 
-    const EditableTableCell = (user, field, isEditable) => (
+    const EditableTableCell = (user, field) => (
       <TableCell
       align='center'
       >
