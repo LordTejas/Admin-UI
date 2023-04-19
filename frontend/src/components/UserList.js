@@ -68,11 +68,12 @@ export default function UserList() {
   const handleDelete = (id) => {
     // Get same array without the selected user (deletes it)
     const filteredUsers = users.filter((user) => user.id !== id);
-    // console.log(id, filteredUsers);
+    const filteredSearchResults = found.filter((user) => user.id !== id);
 
     try {
       // Update the prop
       setUsers(filteredUsers);
+      setFound(filteredSearchResults);
       return;
     } catch (e) {
       console.log(e);
@@ -187,11 +188,13 @@ export default function UserList() {
   const handleDeleteSelected = () => {
     // Simply filters the array which are in selected in order to delete
     // This is where O(1) Access time of our 'Selected Set' shines -> DSA Rocks :)
-    const filteredUSers = users.filter((user) => !selected.has(user.id));
+    const filteredUsers = users.filter((user) => !selected.has(user.id));
+    const filteredSearchResults = found.filter((user) => !selected.has(user.id));
 
     // Try Catch for safety
     try {
-      setUsers(filteredUSers);
+      setUsers(filteredUsers);
+      setFound(filteredSearchResults)
     } catch (e) {
       console.log(e);
     } finally {
