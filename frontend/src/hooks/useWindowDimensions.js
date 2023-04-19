@@ -1,5 +1,23 @@
 import { useState, useEffect } from "react";
 
+
+/**
+ * @typedef dimensions
+ * @type {object}
+ * @property {number} width - Width of the viewport (window)
+ * @property {number} height - Width of the viewport (height)
+ */
+
+
+/**
+ * Custom React Hook to give live width and height of viewport (window)
+ * 
+ * 
+ * @returns {dimensions}
+ * @example
+ * const {width, height} = useWindowDimensions();
+ */
+
 export default function useWindowDimensions() {
   const hasWindow = typeof window !== "undefined";
 
