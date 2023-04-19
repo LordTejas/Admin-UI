@@ -1,11 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import axios from "axios";
 
 import TableView from "./TableView";
 import TableActionsArea from "./TableActionsArea";
+import SearchBar from "./SearchBar";
 
 import "./UserList.css";
 import config from "../config.json";
@@ -191,31 +191,23 @@ export default function UserList() {
   return (
     <Box className="user-list-container">
       <Box className="user-list-search-bar-container">
-        <TextField
-          id="user-list-search-bar"
-          placeholder="Search"
-          type="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          variant="outlined"
-          fullWidth
-        />
+        <SearchBar search={search} setSearch={setSearch} />
       </Box>
 
       <Box className="user-list-table-view-container">
-        {TableView({
-          data: search.length === 0 ? users : found,
-          currentPage,
-          rowLimit,
-          selected,
-          selectedEdit,
-          editData,
-          handleEdit,
-          handleEditChange,
-          handleDelete,
-          handleCheckboxClick,
-          handleSelectAllClick,
-        })}
+        <TableView
+          data={search.length === 0 ? users : found}
+          currentPage={currentPage}
+          rowLimit={rowLimit}
+          selected={selected}
+          selectedEdit={selectedEdit}
+          editData={editData}
+          handleEdit={handleEdit}
+          handleEditChange={handleEditChange}
+          handleDelete={handleDelete}
+          handleCheckboxClick={handleCheckboxClick}
+          handleSelectAllClick={handleSelectAllClick}
+        />
       </Box>
 
       <Box className="user-list-table-actions-container">

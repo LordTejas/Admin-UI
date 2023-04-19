@@ -4,6 +4,22 @@
 This project is made with React and Material UI.
 
 
+## Run
+
+To Run, Go to frontend directory. Then install npm packages and do npm start
+Refer to below steps on Windows terminal/Linux
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Then simply open application on localhost:<Port> i.e. [http://localhost:3000/](http://localhost:3000/)
+
+Note: You need npm installed in order to run application
+
+
 ## Available Scripts
 
 In the project directory, you can run:
