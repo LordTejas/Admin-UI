@@ -18,7 +18,41 @@ export default function TableActionsArea({
   setCurrentPage,
   handleDeleteSelected,
 }) {
-  const RowLimitSelector = () => (
+  const DeleteSelectedButton = ({ handleDeleteSelected }) => (
+    <Button
+      id="delete-selected-button"
+      onClick={handleDeleteSelected}
+      sx={{
+        color: "common.white",
+        bgcolor: "button.danger.main",
+        "&:hover": {
+          bgcolor: "button.danger.dark",
+        },
+      }}
+    >
+      DELETE SELECTED
+    </Button>
+  );
+
+  const PaginationControl = ({ dataLength, currentPage, rowLimit }) => (
+    <Pagination
+      page={currentPage}
+      count={Math.ceil(dataLength / rowLimit)}
+      // Use windwidth to set width dynamically
+      size={width <= 786 ? "small" : "large"}
+      color="primary"
+      showFirstButton
+      showLastButton
+      sx={{
+        alignSelf: "center",
+      }}
+      onChange={(event, page) => {
+        setCurrentPage(page);
+      }}
+    />
+  );
+
+  const RowLimitSelector = ({ rowLimit, rowLimitOptions, setRowLimit }) => (
     <FormControl
       sx={{ m: 1, minWidth: 120 }}
       size="small"
@@ -49,37 +83,19 @@ export default function TableActionsArea({
       spacing={2}
       id="table-action-area"
     >
-      <Button
-        id="delete-selected-button"
-        onClick={handleDeleteSelected}
-        sx={{
-          color: "common.white",
-          bgcolor: "button.danger.main",
-          "&:hover": {
-            bgcolor: "button.danger.dark",
-          },
-        }}
-      >
-        DELETE SELECTED
-      </Button>
+      <DeleteSelectedButton handleDeleteSelected={handleDeleteSelected} />
 
-      <Pagination
-        page={currentPage}
-        count={Math.ceil(data.length / rowLimit)}
-        // Use windwidth to set width dynamically
-        size={(width <= 786) ? "small" : "large"}
-        color="primary"
-        showFirstButton
-        showLastButton
-        sx={{
-            alignSelf: "center",
-        }}
-        onChange={(event, page) => {
-          setCurrentPage(page);
-        }}
+      <PaginationControl
+        dataLength={data.length}
+        currentPage={currentPage}
+        rowLimit={rowLimit}
       />
 
-      <RowLimitSelector />
+      <RowLimitSelector
+        rowLimit={rowLimit}
+        rowLimitOptions={rowLimitOptions}
+        setRowLimit={setRowLimit}
+      />
     </Stack>
   );
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 
-import './SearchBar.css'
+import "./SearchBar.css";
 
-export default function({search, setSearch}) {
+export default function({ search, setSearch }) {
   return (
     <TextField
       id="user-list-search-bar"

@@ -60,9 +60,7 @@ export default function UserList() {
       return false;
     });
 
-    // console.log(filteredUsers);
     setFound(filteredUsers);
-    // console.log(found);
   };
 
   const handleDelete = (id) => {
@@ -189,12 +187,14 @@ export default function UserList() {
     // Simply filters the array which are in selected in order to delete
     // This is where O(1) Access time of our 'Selected Set' shines -> DSA Rocks :)
     const filteredUsers = users.filter((user) => !selected.has(user.id));
-    const filteredSearchResults = found.filter((user) => !selected.has(user.id));
+    const filteredSearchResults = found.filter(
+      (user) => !selected.has(user.id)
+    );
 
     // Try Catch for safety
     try {
       setUsers(filteredUsers);
-      setFound(filteredSearchResults)
+      setFound(filteredSearchResults);
     } catch (e) {
       console.log(e);
     } finally {
@@ -206,12 +206,11 @@ export default function UserList() {
   // Actual Component Returned here [DO NOT MAKE CHANGES DIRECTLY]
   // I use Child components i.e. Divide and Conquer All the way :)
   return (
-    <Stack 
-    className="user-list-container"
-    direction="column"
-    justifyContent="space-between"
-    spacing={2}
-    
+    <Stack
+      className="user-list-container"
+      direction="column"
+      justifyContent="space-between"
+      spacing={2}
     >
       <Box className="user-list-search-bar-container">
         <SearchBar search={search} setSearch={setSearch} />

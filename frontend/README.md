@@ -32,6 +32,14 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
+
+## Mobile Responsiveness
+
+The UI itself is ready with mobile first view. The Table Actions Area will adapt to different viewport (window) width.
+
+The Table View: I decided to make it scrollable horizontaly, since, stacking the content one on another looked pretty ugly.
+
+
 ## Requirements
 
 The requirements of the project are available here [geektrust](https://www.geektrust.com/coding/detailed/admin-ui).
