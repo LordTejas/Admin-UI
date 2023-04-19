@@ -1,22 +1,11 @@
-.user-list-container {
+/* .user-list-container {
     box-sizing: border-box;
-    padding: 1rem;
+    padding: 0.5rem;
     width: 100%;
-}
+} */
 
-.user-list-search-bar-container {
-    margin: 1rem; 
-}
 
-.user-list-table-view-container {
-    margin: 1rem; 
-}
-
-.user-list-table-actions-container {
-    margin: 1rem; 
-}
-
-#table-action-area {
+/* #table-action-area {
     position: relative;
 }
 
@@ -28,4 +17,4 @@
 #row-limit-select {
     position: absolute;
     right: 1rem;
-}
+} */

@@ -1,7 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import axios from "axios";
+
+// Custom hook to get ViewPort Dimensions
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 import TableView from "./TableView";
 import TableActionsArea from "./TableActionsArea";
@@ -19,6 +23,9 @@ export default function UserList() {
   const [selectedEdit, setSelectedEdit] = useState(new Set());
   const [editData, setEditData] = useState({});
 
+  // Check the Import
+  const { width, height } = useWindowDimensions();
+
   // Using Set here, not an array
   // It will increase some functionality, Due to O(1) Access time when we have much more load
   const [selected, setSelected] = useState(new Set());
@@ -32,6 +39,7 @@ export default function UserList() {
     fetchUsers();
   }, []);
 
+  // Handle Search Update Live
   useEffect(() => {
     searchItems();
   }, [search]);
@@ -195,7 +203,13 @@ export default function UserList() {
   // Actual Component Returned here [DO NOT MAKE CHANGES DIRECTLY]
   // I use Child components i.e. Divide and Conquer All the way :)
   return (
-    <Box className="user-list-container">
+    <Stack 
+    className="user-list-container"
+    direction="column"
+    justifyContent="space-between"
+    spacing={2}
+    
+    >
       <Box className="user-list-search-bar-container">
         <SearchBar search={search} setSearch={setSearch} />
       </Box>
@@ -219,6 +233,7 @@ export default function UserList() {
       <Box className="user-list-table-actions-container">
         <TableActionsArea
           data={search.length === 0 ? users : found}
+          width={width}
           rowLimit={rowLimit}
           setRowLimit={setRowLimit}
           rowLimitOptions={rowLimitOptions}
@@ -227,6 +242,6 @@ export default function UserList() {
           handleDeleteSelected={handleDeleteSelected}
         />
       </Box>
-    </Box>
+    </Stack>
   );
 }

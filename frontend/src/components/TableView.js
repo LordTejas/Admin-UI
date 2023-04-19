@@ -62,6 +62,7 @@ export default function TableView({
     return (
       <TableRow
         key={labelId}
+        className="table-row-container"
         role="checkbox"
         aria-checked={isItemSelected}
         selected={isItemSelected}
