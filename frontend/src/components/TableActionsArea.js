@@ -8,6 +8,14 @@ import Select from "@mui/material/Select";
 
 import "./TableActionsArea.css";
 
+
+/**
+ * Table Actions Area of our User List Table View
+ * has DeleteButton, Pagination, RowLimit Factor
+ * 
+ * @component
+ */
+
 export default function TableActionsArea({
   data,
   width,
@@ -18,6 +26,13 @@ export default function TableActionsArea({
   setCurrentPage,
   handleDeleteSelected,
 }) {
+
+  /**
+   * Delete Button Component for delete current selected rows
+   * 
+   * @component
+   */
+
   const DeleteSelectedButton = ({ handleDeleteSelected }) => (
     <Button
       id="delete-selected-button"
@@ -33,6 +48,13 @@ export default function TableActionsArea({
       DELETE SELECTED
     </Button>
   );
+
+
+  /**
+   * Pagination Component for page navigation
+   * 
+   * @component
+   */
 
   const PaginationControl = ({ dataLength, currentPage, rowLimit }) => (
     <Pagination
@@ -51,6 +73,13 @@ export default function TableActionsArea({
       }}
     />
   );
+
+
+  /**
+   * Row Select Component to Limit the number of records shown on the Table View
+   * 
+   * @component
+   */
 
   const RowLimitSelector = ({ rowLimit, rowLimitOptions, setRowLimit }) => (
     <FormControl
