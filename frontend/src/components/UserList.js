@@ -39,11 +39,17 @@ export default function UserList() {
   const searchItems = () => {
     // Filter users which match our search in all name, email, role
     const filteredUsers = users.filter((user) => {
-      const combinedFields = user.name + user.email + user.role;
-
       // String.search(pattern) -> This will search if any pattern matches
       // It returns -1 -> if string not found, else 0...n for first find
-      return combinedFields.search(search) !== -1;
+      const searchPattern = new RegExp(search, "i");
+
+      // Search all the fields
+      if (user.name.search(searchPattern) !== -1) return true;
+      if (user.name.search(searchPattern) !== -1) return true;
+      if (user.name.search(searchPattern) !== -1) return true;
+
+      // Return false if not found any match in given fields
+      return false;
     });
 
     // console.log(filteredUsers);
