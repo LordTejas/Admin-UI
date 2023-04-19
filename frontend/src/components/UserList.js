@@ -53,8 +53,8 @@ export default function UserList() {
 
       // Search all the fields
       if (user.name.search(searchPattern) !== -1) return true;
-      if (user.name.search(searchPattern) !== -1) return true;
-      if (user.name.search(searchPattern) !== -1) return true;
+      if (user.email.search(searchPattern) !== -1) return true;
+      if (user.role.search(searchPattern) !== -1) return true;
 
       // Return false if not found any match in given fields
       return false;
