@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-
 /**
  * @typedef dimensions
  * @type {object}
@@ -8,11 +7,10 @@ import { useState, useEffect } from "react";
  * @property {number} height - Width of the viewport (height)
  */
 
-
 /**
  * Custom React Hook to give live width and height of viewport (window)
- * 
- * 
+ *
+ *
  * @returns {dimensions}
  * @example
  * const {width, height} = useWindowDimensions();

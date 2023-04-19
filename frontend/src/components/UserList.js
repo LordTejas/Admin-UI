@@ -14,38 +14,76 @@ import SearchBar from "./SearchBar";
 import "./UserList.css";
 import config from "../config.json";
 
+/**
+ * @typedef User
+ * @type {object}
+ * @property {number} id - User ID.
+ * @property {string} name - User Name.
+ * @property {string} email - User Email.
+ * @property {string} role - User Role.
+ */
+
 export default function UserList() {
   const [users, setUsers] = useState([]);
+  const { width, height } = useWindowDimensions();
   const [rowLimit, setRowLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [found, setFound] = useState([]);
   const [selectedEdit, setSelectedEdit] = useState(new Set());
   const [editData, setEditData] = useState({});
-
-  // Check the Import
-  const { width, height } = useWindowDimensions();
-
-  // Using Set here, not an array
-  // It will increase some functionality, Due to O(1) Access time when we have much more load
   const [selected, setSelected] = useState(new Set());
 
-  // Default RowLimit Options
+  /** Row Limit Options to limit number of records on page */
   const rowLimitOptions = [5, 10, 20, 25];
 
-  // Fetch Users for the first time
-  // No need of async here, since no promised returned
+  /**
+   * Fetch Users for the first time
+   * No need of async here, since no promised returned
+   */
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // Handle Search Update Live
+  /**
+   * Handle Search Update Live
+   */
+
   useEffect(() => {
     searchItems();
   }, [search]);
 
+  /**
+   * Fetches User Data from the edpoint and sets users state
+   */
+
+  const fetchUsers = async () => {
+    const usersUrl = `${config.endpoint}`;
+
+    try {
+      const response = await axios.get(usersUrl);
+
+      if (!response.status === 200) setUsers([]);
+
+      setUsers(response.data);
+    } catch (e) {
+      console.log(e);
+      setUsers([]);
+    }
+  };
+
+  /**
+   * Function to perform search based on 'search' prop's state change.
+   */
+
   const searchItems = () => {
-    // Filter users which match our search in all name, email, role
+    /**
+     * Filter users which match our search in all name, email, role
+     * @param {User} User
+     * @return {boolean} - Wether the user has any matching propery to search or not
+     */
+
     const filteredUsers = users.filter((user) => {
       // String.search(pattern) -> This will search if any pattern matches
       // It returns -1 -> if string not found, else 0...n for first find
@@ -63,6 +101,13 @@ export default function UserList() {
     setFound(filteredUsers);
   };
 
+  /**
+   * Delete handle for each record in Table View
+   *
+   * @param {number} id User ID
+   * @returns
+   */
+
   const handleDelete = (id) => {
     // Get same array without the selected user (deletes it)
     const filteredUsers = users.filter((user) => user.id !== id);
@@ -78,12 +123,27 @@ export default function UserList() {
     }
   };
 
+  /**
+   * Loads the current record data from users with userId
+   *
+   * @param {number} id User ID
+   * @returns
+   */
+
   const loadEditData = (id) => {
     const userIndex = users.findIndex((user) => user.id === id);
     const user = users[userIndex];
 
     setEditData({ ...editData, [id]: { ...user } });
   };
+
+  /**
+   * Function to apply the changes made in record which has userID == id
+   * This happens in-memory
+   *
+   * @param {number} id userId
+   * @returns
+   */
 
   const applyEditChange = (id) => {
     const dataIndex = users.findIndex((user) => user.id === id);
@@ -111,6 +171,13 @@ export default function UserList() {
     }
   };
 
+  /**
+   * Edit Handle to enable / disable the edit mode for given record
+   *
+   * @param {number} id userId
+   * @returns
+   */
+
   const handleEdit = (id) => {
     if (selectedEdit.has(id)) {
       applyEditChange(id);
@@ -126,6 +193,29 @@ export default function UserList() {
     loadEditData(id);
   };
 
+  /**
+   * Handles changes of records which are open in edit Mode
+   *
+   * @param {object} e
+   * @param {number} id userID
+   * @param {string} key field of User record to be updated
+   */
+
+  const handleEditChange = (e, id, key) => {
+    setEditData({
+      ...editData,
+      [id]: { ...editData[id], [key]: e.target.value },
+    });
+  };
+
+  /**
+   * handle to capture checkbox click and update
+   * current selected (add / remove clicked record)
+   *
+   * @param {number} id userId
+   * @returns
+   */
+
   const handleCheckboxClick = (e, id) => {
     // Get Shallow copy of selected SET, Deep copy not needed
     // Since, we only have 1 level deep
@@ -140,6 +230,13 @@ export default function UserList() {
     // Swaps our newSelected to prop and updates
     setSelected(newSelected);
   };
+
+  /**
+   * Adds / removes all the current page rows to selected
+   *
+   * @param {object} event window Event object
+   * @returns
+   */
 
   const handleSelectAllClick = (event) => {
     const low = (currentPage - 1) * rowLimit;
@@ -161,27 +258,9 @@ export default function UserList() {
     setSelected(newSelected);
   };
 
-  const handleEditChange = (e, id, key) => {
-    setEditData({
-      ...editData,
-      [id]: { ...editData[id], [key]: e.target.value },
-    });
-  };
-
-  const fetchUsers = async () => {
-    const usersUrl = `${config.endpoint}`;
-
-    try {
-      const response = await axios.get(usersUrl);
-
-      if (!response.status === 200) setUsers([]);
-
-      setUsers(response.data);
-    } catch (e) {
-      console.log(e);
-      setUsers([]);
-    }
-  };
+  /**
+   * handle to Delete Current Selected
+   */
 
   const handleDeleteSelected = () => {
     // Simply filters the array which are in selected in order to delete

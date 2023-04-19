@@ -3,7 +3,17 @@ import TextField from "@mui/material/TextField";
 
 import "./SearchBar.css";
 
-export default function({ search, setSearch }) {
+/**
+ * Simple Search Bar Component
+ *
+ * @component
+ * @example
+ * const [search, setSearch] = useState("");
+ *
+ * <SearchBar search={search} setSearch={setSearch} />
+ */
+
+export default function SearchBar({ search, setSearch }) {
   return (
     <TextField
       id="user-list-search-bar"
