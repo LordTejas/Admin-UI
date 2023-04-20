@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "module": "commonjs",
   "type": "module",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
