@@ -1,7 +1,7 @@
 
 # Admin UI
 
-This project is made with React and Material UI.
+This project is made with React and Material UI. [tejas-kanji-admin-ui.netlify.app/](https://tejas-kanji-admin-ui.netlify.app/)
 
 
 ## Run

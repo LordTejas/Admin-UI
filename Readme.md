@@ -1,7 +1,7 @@
 
 # Admin UI
 
-This project is made with React and Material UI.
+This project is made with React and Material UI. [tejas-kanji-admin-ui.netlify.app/](https://tejas-kanji-admin-ui.netlify.app/)
 
 
 ## Run
@@ -24,13 +24,20 @@ Note: You need npm installed in order to run application
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+
+### `npm run test`
+
+Will run the test cases from available test suites
+
+Test suites are stored in **/frontend/src/__test__/\***
 
 
 ## Mobile Responsiveness
