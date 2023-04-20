@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+// import { useSnackbar } from "notistack";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
@@ -23,7 +24,8 @@ import config from "../config.json";
  * @property {string} role - User Role.
  */
 
-export default function UserList() {
+const UserList = () => {
+//   const { enqueueSnackbar } = useSnackbar();
   const [users, setUsers] = useState([]);
   const { width, height } = useWindowDimensions();
   const [rowLimit, setRowLimit] = useState(10);
@@ -275,6 +277,9 @@ export default function UserList() {
     try {
       setUsers(filteredUsers);
       setFound(filteredSearchResults);
+    //   enqueueSnackbar(`${filteredUsers.length} User Records been deleted Successfully!`, {
+    //     variant: "error",
+    //   });
     } catch (e) {
       console.log(e);
     } finally {
@@ -327,3 +332,5 @@ export default function UserList() {
     </Stack>
   );
 }
+
+export default UserList;

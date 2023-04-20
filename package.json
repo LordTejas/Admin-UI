@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "better-docs": "^2.7.2",
-    "jsdoc": "^4.0.2"
+    "jsdoc": "^4.0.2",
+    "notistack": "^3.0.1"
   }
 }
