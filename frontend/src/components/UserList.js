@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-// import { useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
@@ -25,7 +25,7 @@ import config from "../config.json";
  */
 
 const UserList = () => {
-//   const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [users, setUsers] = useState([]);
   const { width, height } = useWindowDimensions();
   const [rowLimit, setRowLimit] = useState(10);
@@ -119,6 +119,9 @@ const UserList = () => {
       // Update the prop
       setUsers(filteredUsers);
       setFound(filteredSearchResults);
+      enqueueSnackbar(`User Record with id=${id} has been deleted!`, {
+        variant: "error",
+      });
       return;
     } catch (e) {
       console.log(e);
@@ -183,6 +186,9 @@ const UserList = () => {
   const handleEdit = (id) => {
     if (selectedEdit.has(id)) {
       applyEditChange(id);
+      enqueueSnackbar(`User Record with id=${id} has been updated!`, {
+        variant: "warning",
+      });
       return;
     }
 
@@ -268,7 +274,9 @@ const UserList = () => {
   const handleDeleteSelected = () => {
     // Simply filters the array which are in selected in order to delete
     // This is where O(1) Access time of our 'Selected Set' shines -> DSA Rocks :)
+    let deletetedCount = users.length;
     const filteredUsers = users.filter((user) => !selected.has(user.id));
+    deletetedCount -= filteredUsers.length;
     const filteredSearchResults = found.filter(
       (user) => !selected.has(user.id)
     );
@@ -277,9 +285,12 @@ const UserList = () => {
     try {
       setUsers(filteredUsers);
       setFound(filteredSearchResults);
-    //   enqueueSnackbar(`${filteredUsers.length} User Records been deleted Successfully!`, {
-    //     variant: "error",
-    //   });
+      enqueueSnackbar(
+        `${deletetedCount} User Records been deleted Successfully!`,
+        {
+          variant: "error",
+        }
+      );
     } catch (e) {
       console.log(e);
     } finally {
@@ -331,6 +342,6 @@ const UserList = () => {
       </Box>
     </Stack>
   );
-}
+};
 
 export default UserList;
